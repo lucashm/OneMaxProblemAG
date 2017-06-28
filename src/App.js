@@ -8,14 +8,24 @@ class App extends Component {
     super(props);
 
     this.state = {
-      test: 2
+      numberOne: 0,
+      numberTwo: 0,
+      finalResult: 0
     };
   }
 
-  testing = (a) => {
+  testing = (numberOne, numberTwo) => {
     this.setState({
-      test: a
+      finalResult: parseInt(numberOne) + parseInt(numberTwo)
     });
+  }
+
+  handleChange = (event) => {
+    this.setState({ [event.target.name]: event.target.value });
+  }
+
+  handleClick = (event) => {
+    this.testing(this.state.numberOne, this.state.numberTwo);
   }
 
   render() {
@@ -25,13 +35,27 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h2>Welcome to React</h2>
         </div>
+        <form>
+          <label>
+            A:
+          <input type="number" name="numberOne" value={this.state.numberOne} onChange={this.handleChange} />
+          </label>
+        </form>
 
-        <button onClick={() => this.testing(5)}>
-          Click me
-        </button>
+        <form>
+          <label>
+            B:
+          <input type="number" name="numberTwo" value={this.state.numberTwo} onChange={this.handleChange} />
+          </label>
+        </form>
 
-        <p>{this.state.test}</p>
+        <button onClick={this.handleClick}>
+          clica vei
+          </button>
 
+        <p>{this.state.numberOne + " + " + this.state.numberTwo}</p>
+        <p>{parseInt(this.state.numberOne) + parseInt(this.state.numberTwo)}</p>
+        <p>{"testing: " + this.state.finalResult}</p>
 
       </div>
     );
