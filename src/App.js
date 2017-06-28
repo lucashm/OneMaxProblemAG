@@ -18,7 +18,8 @@ class App extends Component {
       prob_mut: 0.2, // probabilidade de mutação
       prob_cruz: 0.7, // probabilidade de cruzamento
       indice_melhor: 0,
-      score_melhor: 0
+      score_melhor: 0,
+      populacao: []
     };
   }
 
@@ -89,65 +90,72 @@ class App extends Component {
         score_melhor = score;
       }
     }
-
     return indice_melhor;
   }
 
   mainCall = () => {
     Math.round(Math.random());
+    var populacao = this.inicializaPopulacao();
+    this.start(populacao);
+  }
 
+  start = (populacao) => {
     var filho = []
 
-    var populacao = this.inicializaPopulacao();
-    //console.log(populacao);
     for (var i = 0; i < this.state.geracoes; i++) {
-      for (var j = 0; j < this.state.tam_torneio; j++) {
-        // calcula a probabilidade de cruzamento
-        var prob = ((Math.random()));
-        //console.log("probabilidade: " + prob);
-        if (prob < this.state.prob_cruz) {
-          var indice_pai1 = Math.round(Math.random() % this.state.tam_pop);
-          var indice_pai2;
-          do {
-            indice_pai2 = Math.round(Math.random() % this.state.tam_pop);
-          }
-          while (indice_pai1 === indice_pai2);
+      var interval = setTimeout(() => {
+        clearInterval(interval);
+        for (var j = 0; j < this.state.tam_torneio; j++) {
+          // calcula a probabilidade de cruzamento
+          var prob = ((Math.random()));
+          //console.log("probabilidade: " + prob);
+          if (prob < this.state.prob_cruz) {
+            var indice_pai1 = Math.round(Math.random() % this.state.tam_pop);
+            var indice_pai2;
+            do {
+              indice_pai2 = Math.round(Math.random() % this.state.tam_pop);
+            }
+            while (indice_pai1 === indice_pai2);
 
-          //console.log("indice pai1: " + indice_pai1);
-          //console.log("indice pai2: " + indice_pai2);
+            //console.log("indice pai1: " + indice_pai1);
+            //console.log("indice pai2: " + indice_pai2);
 
-          filho = this.cruzamento(indice_pai1, indice_pai2, populacao);
+            filho = this.cruzamento(indice_pai1, indice_pai2, populacao);
 
-          prob = (Math.random());
+            prob = (Math.random());
 
-          if (prob < this.state.prob_mut) {
-            filho = this.mutacao(filho)
-          }
-          var score_pai = this.obterPontuacao(populacao[indice_pai1]);
-          console.log("Score pai:" + score_pai);
-          var score_filho = this.obterPontuacao(filho);
-          console.log("Score filho: " + score_filho);
-          if (score_filho > score_pai) {
-            // faz a cópia dos genes do filho para o pai
-            for (var k = 0; k < this.state.tam_genes; k++)
-              populacao[indice_pai1][k] = filho[k];
+            if (prob < this.state.prob_mut) {
+              filho = this.mutacao(filho)
+            }
+            var score_pai = this.obterPontuacao(populacao[indice_pai1]);
+            //console.log("Score pai:" + score_pai);
+            var score_filho = this.obterPontuacao(filho);
+            //console.log("Score filho: " + score_filho);
+            if (score_filho > score_pai) {
+              // faz a cópia dos genes do filho para o pai
+              for (var k = 0; k < this.state.tam_genes; k++)
+                populacao[indice_pai1][k] = filho[k];
+            }
+
           }
 
         }
 
-      }
+        this.setState({
+          indice_melhor: this.obterMelhor(populacao)
+        });
 
-      this.setState({
-        indice_melhor: this.obterMelhor(populacao)
-      });
+        this.setState({
+          score_melhor: this.obterPontuacao(populacao[this.state.indice_melhor])
+        });
 
-      this.setState({
-        score_melhor: this.obterPontuacao(populacao[this.state.indice_melhor])
-      });
-
+        this.setState({
+          populacao: populacao
+        });
+      }, 10 * i);
     }
-  }
 
+  }
 
   handleChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
@@ -161,21 +169,47 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <div className="App-header">
+        <div className="App-header" style={{marginBottom: 20}}>
           <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
+          <h2>Algoritmo Genético</h2>
         </div>
         <form>
           <label>
-            A:
-          <input type="number" name="numberOne" value={this.state.numberOne} onChange={this.handleChange} />
+            Quantidade de genes:
+          <input type="number" name="tam_genes" value={this.state.tam_genes} onChange={this.handleChange} />
           </label>
         </form>
 
         <form>
           <label>
-            B:
-          <input type="number" name="numberTwo" value={this.state.numberTwo} onChange={this.handleChange} />
+            Tamanho da populacao:
+          <input type="number" name="tam_pop" value={this.state.tam_pop} onChange={this.handleChange} />
+          </label>
+        </form>
+
+        <form>
+          <label>
+            Tamanho do torneio:
+          <input type="number" name="tam_torneio" value={this.state.tam_torneio} onChange={this.handleChange} />
+          </label>
+        </form>
+
+        <form>
+          <label>
+            Quantidade de gerações:
+          <input type="number" name="geracoes" value={this.state.geracoes} onChange={this.handleChange} />
+          </label>
+        </form>
+        <form>
+          <label>
+            Probabilidade de mutação:
+          <input type="number" name="prob_mut" value={this.state.prob_mut} onChange={this.handleChange} />
+          </label>
+        </form>
+        <form>
+          <label>
+            Probabilidade de cruzamento:
+          <input type="number" name="prob_cruz" value={this.state.prob_cruz} onChange={this.handleChange} />
           </label>
         </form>
 
@@ -183,11 +217,10 @@ class App extends Component {
           clica vei
           </button>
 
-        <p>{this.state.numberOne + " + " + this.state.numberTwo}</p>
-        <p>{parseInt(this.state.numberOne, 10) + parseInt(this.state.numberTwo, 10)}</p>
-        <p>{"score melhor: " + this.state.score_melhor}</p>
-        <p>{"indice melhor: " + this.state.indice_melhor}</p>
-
+        <p style={{ fontSize: 30 }}>{"Fitness: " + this.state.score_melhor}</p>
+        <div style={{ wordWrap: 'break-word', width: '65%', height: '80%', marginRight: 'auto', marginLeft: 'auto' }}>
+          <p style={{ fontSize: 30 }}>{this.state.populacao[this.state.indice_melhor]}</p>
+        </div>
       </div>
     );
   }
