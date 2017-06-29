@@ -21,6 +21,9 @@ class App extends Component {
       score_melhor: 0,
       populacao: [],
       intervalo: 10,
+      currentGeneration: 0,
+      reachedGeneration: 0,
+      cont: 0
     };
   }
 
@@ -102,7 +105,6 @@ class App extends Component {
 
   start = (populacao) => {
     var filho = []
-
     for (var i = 0; i < this.state.geracoes; i++) {
       var interval = setTimeout(() => {
         clearInterval(interval);
@@ -143,6 +145,10 @@ class App extends Component {
         }
 
         this.setState({
+          currentGeneration: this.state.currentGeneration + 1
+        });
+
+        this.setState({
           indice_melhor: this.obterMelhor(populacao)
         });
 
@@ -153,6 +159,14 @@ class App extends Component {
         this.setState({
           populacao: populacao
         });
+
+        if (parseInt(this.state.tam_genes, 10) === parseInt(this.state.score_melhor, 10) && this.state.cont === 0) {
+          this.setState({
+            reachedGeneration: this.state.currentGeneration,
+            cont: 1
+          });
+        }
+
       }, this.state.intervalo * i);
     }
 
@@ -223,16 +237,18 @@ class App extends Component {
               <input type="number" name="intervalo" value={this.state.intervalo} onChange={this.handleChange} />
             </label>
           </form>
-        
+
           <button className="btn" onClick={this.handleClick}>
             Iniciar!
           </button>
         </div>
 
-        
+
 
         <p style={{ fontSize: 30 }}>{"Pontuação máxima: " + this.state.score_melhor}</p>
-        <div style={{ wordWrap: 'break-word', width: '65%', height: '80%', marginLeft: 'auto', marginRight: '120'}}>
+        <p style={{ fontSize: 30 }}>{"Geração atual: " + parseInt(this.state.currentGeneration + 1, 10)}</p>
+        <p style={{ fontSize: 30 }}>{"Geração que alcançou o maior score: " + parseInt(this.state.reachedGeneration + 1, 10)}</p>
+        <div style={{ wordWrap: 'break-word', width: '65%', height: '80%', marginLeft: 'auto', marginRight: '120' }}>
           <p style={{ fontSize: 44 }}>{this.state.populacao[this.state.indice_melhor]}</p>
         </div>
       </div>
