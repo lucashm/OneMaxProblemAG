@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import logo from './dna.svg';
 import './App.css';
 
 class App extends Component {
@@ -174,7 +174,7 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h2>Algoritmo Genético - Máximos de 1</h2>
         </div>
-        <div style={{ width: '30%', marginLeft: 'auto', marginRight: 'auto', textAlign: 'right', marginBottom: '2%' }}>
+        <div style={{ width: '20%', marginLeft: '22', marginRight: 'auto', textAlign: 'left', marginBottom: '2%', float: 'left' }}>
           <form style={{ marginBottom: 10 }}>
             <label>
               Quantidade de genes: {" "}
@@ -223,15 +223,17 @@ class App extends Component {
               <input type="number" name="intervalo" value={this.state.intervalo} onChange={this.handleChange} />
             </label>
           </form>
+        
+          <button className="btn" onClick={this.handleClick}>
+            Iniciar!
+          </button>
         </div>
 
-        <button style={{ width: 200, height: 30 }} onClick={this.handleClick}>
-          Iniciar!
-          </button>
+        
 
         <p style={{ fontSize: 30 }}>{"Pontuação máxima: " + this.state.score_melhor}</p>
-        <div style={{ wordWrap: 'break-word', width: '65%', height: '80%', marginRight: 'auto', marginLeft: 'auto' }}>
-          <p style={{ fontSize: 30 }}>{this.state.populacao[this.state.indice_melhor]}</p>
+        <div style={{ wordWrap: 'break-word', width: '65%', height: '80%', marginLeft: 'auto', marginRight: '120'}}>
+          <p style={{ fontSize: 44 }}>{this.state.populacao[this.state.indice_melhor]}</p>
         </div>
       </div>
     );

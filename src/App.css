@@ -1,21 +1,38 @@
+@import url('https://fonts.googleapis.com/css?family=Bitter');
+
 .App {
   text-align: center;
 }
 
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+  height: 110px;
 }
 
 .App-header {
-  background-color: #222;
-  height: 120px;
-  padding: 20px;
+  background-color: #EC5D73;
+  height: 156px;
+  padding: 38px;
   color: white;
+  font-family: 'Bitter', serif;
+  font-size: 34px;
 }
 
-.App-intro {
-  font-size: large;
+.btn{
+  background-color: #EC5D73;
+  color: white;
+  border: none;
+  width: 180px;
+  height: 46px;
+  font-size: 20px;
+  font-weight: bold;
+  border-radius: 5px;
+  box-shadow: 5px 5px 5px #425460;
+}
+
+.btn:hover{
+  color: #EC5D73;
+  background-color: white;
 }
 
 @keyframes App-logo-spin {
