@@ -19,7 +19,8 @@ class App extends Component {
       prob_cruz: 0.7, // probabilidade de cruzamento
       indice_melhor: 0,
       score_melhor: 0,
-      populacao: []
+      populacao: [],
+      intervalo: 10,
     };
   }
 
@@ -152,7 +153,7 @@ class App extends Component {
         this.setState({
           populacao: populacao
         });
-      }, 10 * i);
+      }, this.state.intervalo * i);
     }
 
   }
@@ -169,55 +170,66 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <div className="App-header" style={{marginBottom: 20}}>
+        <div className="App-header" style={{ marginBottom: 20 }}>
           <img src={logo} className="App-logo" alt="logo" />
-          <h2>Algoritmo Genético</h2>
+          <h2>Algoritmo Genético - Máximos de 1</h2>
         </div>
-        <form>
-          <label>
-            Quantidade de genes:
-          <input type="number" name="tam_genes" value={this.state.tam_genes} onChange={this.handleChange} />
-          </label>
-        </form>
+        <div style={{ width: '30%', marginLeft: 'auto', marginRight: 'auto', textAlign: 'right', marginBottom: '2%' }}>
+          <form style={{ marginBottom: 10 }}>
+            <label>
+              Quantidade de genes: {" "}
+              <input type="number" name="tam_genes" value={this.state.tam_genes} onChange={this.handleChange} />
+            </label>
+          </form>
 
-        <form>
-          <label>
-            Tamanho da populacao:
-          <input type="number" name="tam_pop" value={this.state.tam_pop} onChange={this.handleChange} />
-          </label>
-        </form>
+          <form style={{ marginBottom: 10 }}>
+            <label>
+              Tamanho da populacao:{" "}
+              <input type="number" name="tam_pop" value={this.state.tam_pop} onChange={this.handleChange} />
+            </label>
+          </form>
 
-        <form>
-          <label>
-            Tamanho do torneio:
-          <input type="number" name="tam_torneio" value={this.state.tam_torneio} onChange={this.handleChange} />
-          </label>
-        </form>
+          <form style={{ marginBottom: 10 }}>
+            <label>
+              Tamanho do torneio: {" "}
+              <input type="number" name="tam_torneio" value={this.state.tam_torneio} onChange={this.handleChange} />
+            </label>
+          </form>
 
-        <form>
-          <label>
-            Quantidade de gerações:
-          <input type="number" name="geracoes" value={this.state.geracoes} onChange={this.handleChange} />
-          </label>
-        </form>
-        <form>
-          <label>
-            Probabilidade de mutação:
-          <input type="number" name="prob_mut" value={this.state.prob_mut} onChange={this.handleChange} />
-          </label>
-        </form>
-        <form>
-          <label>
-            Probabilidade de cruzamento:
-          <input type="number" name="prob_cruz" value={this.state.prob_cruz} onChange={this.handleChange} />
-          </label>
-        </form>
+          <form style={{ marginBottom: 10 }}>
+            <label>
+              Quantidade de gerações: {" "}
+              <input type="number" name="geracoes" value={this.state.geracoes} onChange={this.handleChange} />
+            </label>
+          </form>
 
-        <button onClick={this.handleClick}>
-          clica vei
+          <form style={{ marginBottom: 10 }}>
+            <label>
+              Probabilidade de mutação: {" "}
+              <input type="number" name="prob_mut" value={this.state.prob_mut} onChange={this.handleChange} />
+            </label>
+          </form>
+
+          <form style={{ marginBottom: 10 }}>
+            <label>
+              Probabilidade de cruzamento: {" "}
+              <input type="number" name="prob_cruz" value={this.state.prob_cruz} onChange={this.handleChange} />
+            </label>
+          </form>
+
+          <form style={{ marginBottom: 10 }}>
+            <label>
+              Intervalo(milissegundos): {" "}
+              <input type="number" name="intervalo" value={this.state.intervalo} onChange={this.handleChange} />
+            </label>
+          </form>
+        </div>
+
+        <button style={{ width: 200, height: 30 }} onClick={this.handleClick}>
+          Iniciar!
           </button>
 
-        <p style={{ fontSize: 30 }}>{"Fitness: " + this.state.score_melhor}</p>
+        <p style={{ fontSize: 30 }}>{"Pontuação máxima: " + this.state.score_melhor}</p>
         <div style={{ wordWrap: 'break-word', width: '65%', height: '80%', marginRight: 'auto', marginLeft: 'auto' }}>
           <p style={{ fontSize: 30 }}>{this.state.populacao[this.state.indice_melhor]}</p>
         </div>
