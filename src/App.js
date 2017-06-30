@@ -34,7 +34,7 @@ class App extends Component {
       indice_melhor: 0,
       score_melhor: 0,
       populacao: [],
-      intervalo: 10,
+      intervalo: 25,
       currentGeneration: 0,
       reachedGeneration: 0,
       cont: 0
