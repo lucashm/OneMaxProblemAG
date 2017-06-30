@@ -9,7 +9,7 @@ var auxData = [];
 var dataSet = {
             labels: auxLabel,
         datasets: [{
-            label: "My First dataset",
+            label: "Genetic Algorythm",
             backgroundColor: '#2980b9',
             borderColor: '#2ecc71',
             data: auxData,
@@ -26,9 +26,9 @@ class App extends Component {
       numberTwo: 0,
       finalResult: 0,
       tam_genes: 100, // quantidade de genes
-      tam_pop: 50, // quantidade de indivíduos da população
+      tam_pop: 10, // quantidade de indivíduos da população
       tam_torneio: 20, // tamanho do torneio
-      geracoes: 500, // quantidade de gerações
+      geracoes: 200, // quantidade de gerações
       prob_mut: 0.2, // probabilidade de mutação
       prob_cruz: 0.7, // probabilidade de cruzamento
       indice_melhor: 0,
@@ -184,10 +184,11 @@ class App extends Component {
           auxLabel.push(this.state.currentGeneration);  
           auxData.push(this.state.score_melhor);
         }
-        
-        if(parseInt(this.state.currentGeneration, 10) === parseInt(this.state.geracoes, 10)){
+
+        if(parseInt(this.state.currentGeneration+1, 10) === parseInt(this.state.geracoes, 10)){
           auxLabel.push(this.state.currentGeneration);
           auxData.push(this.state.score_melhor);
+          this.forceUpdate();
         }
 
         
@@ -276,9 +277,15 @@ class App extends Component {
           <button className="btn" onClick={this.handleClick}>
             Iniciar!
           </button>
+          <div style = {{width: 450}}>
 
-           <LineChart data={dataSet} options={{}} width="400%" height="250" redraw style = {{textAlign: 'left', float: 'left', backgroundColor: '#2c3e50', borderRadius: 10, marginTop: 20}}/>
-
+          <pre style ={{float: 'left'}}>
+              P{"\n"}o{"\n"}n{"\n"}t{"\n"}u{"\n"}a{"\n"}ç{"\n"}ã{"\n"}o
+          </pre>
+           <LineChart data={dataSet} options={{}} width="400%" height="250" redraw style = {{textAlign: 'left', backgroundColor: 'white', borderRadius: 10, marginLeft: 15 , marginTop: 15}}/>
+          
+           <pre style = {{marginLeft: 30, marginTop: 0}}> G e r a ç õ e s </pre>
+           </div>
         </div>
 
         <p style={{ fontSize: 30 }}>{"Pontuação máxima: " + this.state.score_melhor}</p>
