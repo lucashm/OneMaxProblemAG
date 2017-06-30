@@ -2,6 +2,20 @@ import React, { Component } from 'react';
 import logo from './dna.svg';
 import './App.css';
 
+var LineChart = require("react-chartjs").Line;
+
+var auxLabel = [];
+var auxData = [];
+var dataSet = {
+            labels: auxLabel,
+        datasets: [{
+            label: "My First dataset",
+            backgroundColor: '#2980b9',
+            borderColor: '#2ecc71',
+            data: auxData,
+        }]
+}
+
 class App extends Component {
 
   constructor(props) {
@@ -166,6 +180,27 @@ class App extends Component {
             cont: 1
           });
         }
+        if(parseInt(this.state.currentGeneration%(this.state.geracoes/10), 10) === 1){
+          auxLabel.push(this.state.currentGeneration);  
+          auxData.push(this.state.score_melhor);
+        }
+        
+        if(parseInt(this.state.currentGeneration, 10) === parseInt(this.state.geracoes, 10)){
+          auxLabel.push(this.state.currentGeneration);
+          auxData.push(this.state.score_melhor);
+        }
+
+        
+          var dataSet = {
+            labels: auxLabel,
+        datasets: [{
+            label: "My First dataset",
+            backgroundColor: '#2980b9',
+            borderColor: '#2ecc71',
+            data: auxData,
+        }]
+  }
+
 
       }, this.state.intervalo * i);
     }
@@ -241,9 +276,10 @@ class App extends Component {
           <button className="btn" onClick={this.handleClick}>
             Iniciar!
           </button>
+
+           <LineChart data={dataSet} options={{}} width="400%" height="250" redraw style = {{textAlign: 'left', float: 'left', backgroundColor: '#2c3e50', borderRadius: 10, marginTop: 20}}/>
+
         </div>
-
-
 
         <p style={{ fontSize: 30 }}>{"Pontuação máxima: " + this.state.score_melhor}</p>
         <p style={{ fontSize: 30 }}>{"Geração atual: " + parseInt(this.state.currentGeneration + 1, 10)}</p>
@@ -251,6 +287,9 @@ class App extends Component {
         <div style={{ wordWrap: 'break-word', width: '65%', height: '80%', marginLeft: 'auto', marginRight: '120' }}>
           <p style={{ fontSize: 44 }}>{this.state.populacao[this.state.indice_melhor]}</p>
         </div>
+        
+          
+        
       </div>
     );
   }
